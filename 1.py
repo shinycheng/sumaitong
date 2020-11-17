@@ -1,7 +1,7 @@
 import threading
 import requests
 import re
-import time
+
 f_list = []
 link_list = [(0,200),(201,400),(401,600),(601,800),(801,1000)]
 with open(r'alexa.txt','r') as f:
