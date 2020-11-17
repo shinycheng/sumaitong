@@ -132,15 +132,13 @@ def paqu(name,productId,q):
             a_dict['company'] = company
             a_dict['price'] = freightAmount
             print(a_dict)
-            df = pd.DataFrame(a_dict, index=[1])
-            list.append(df)
+
     except:
         a_dict['country'] = country
         a_dict['company'] = None
         a_dict['price'] = None
-        df =pd.DataFrame(a_dict,index= [1])
-        list.append(df)
-    return list
+        print(a_dict)
+
 
 #28个主要国家
 countrys_list = ["RU",
@@ -182,8 +180,6 @@ for country_list in countrys_list:
     thread = Mythread(country_list,productId,workqueue)
     thread.start()
     Threads.append(thread)
-    df = pd.concat(thread.run())
-    df.to_excel(r'F:\python\速卖通\运费价格\多线程价格.xlsx')
 
 #填充队列
 for country in countrys:
