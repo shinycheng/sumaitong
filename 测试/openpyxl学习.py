@@ -11,4 +11,3 @@ for i in range(1,10):
     for y in range(1,101):
         ws.cell(row=i,column=y,value=y)
 wb.save('pyxl.xlsx')
-print(ws['A1':'C2'])
