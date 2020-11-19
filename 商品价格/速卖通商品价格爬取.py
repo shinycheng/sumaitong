@@ -133,7 +133,7 @@ for i in range(len(countrys)):
         list.append(df)
         print(product_dict)
 df = pd.concat(list)
-df.to_excel(r'F:\python\速卖通\商品价格\价格.xlsx')
+df.to_excel(r'价格.xlsx')
 
 
 

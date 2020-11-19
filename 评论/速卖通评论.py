@@ -6,9 +6,9 @@ import time
 import pandas as pd
 
 # 需要输入的参数
-productId=4001194049725
-ownerMemberId=201975727
-companyId=214510452
+productId=1005001389808485
+ownerMemberId=242241330
+companyId=249780510
 
 
 
@@ -189,4 +189,4 @@ def all_comments(page):
     df = pd.concat(list)
     return df
 df = all_comments(comment_page())
-df.to_excel(r'F:\python\速卖通\评论\评论.xlsx')
+df.to_excel(r'评论.xlsx')

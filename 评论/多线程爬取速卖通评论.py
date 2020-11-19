@@ -4,11 +4,14 @@ import requests
 from bs4 import BeautifulSoup
 import threading
 import queue
+from openpyxl import Workbook
+wb = Workbook()
+ws = wb.active
 
 #需要输入的参数
-productId=4001194049725
-ownerMemberId=201975727
-companyId=214510452
+productId=1005001389808485
+ownerMemberId=242241330
+companyId=249780510
 
 # 获取总页数
 def comment_page(productId,ownerMemberId,companyId):
@@ -182,6 +185,8 @@ def all_comments(name,productId,ownerMemberId,companyTd,p):
     soup = BeautifulSoup(response.text, 'lxml')
     # 单页评论信息
     comments = soup.find_all('div', class_='feedback-item clearfix')
+    keys = []
+    values = []
     for comment in comments:
         user_country = comment.find_all('div', class_="user-country")
         user_info = comment.find('div', class_="user-order-info")
@@ -194,6 +199,13 @@ def all_comments(name,productId,ownerMemberId,companyTd,p):
         comment_time = re.findall(r'<span class="r-time-new">(.*?)</span>',str(comment_time))
         name_dict['time'] = comment_time[0]
         print(name_dict)
+        for key in name_dict.keys():
+            keys.append(key)
+        for i in range(len(keys)):
+            ws.cell(row=1,column=i+1).value = keys[i]
+        for value in name_dict.values():
+            values.append(value)
+    ws.append(values)
 
 pages = comment_page(productId,ownerMemberId,companyId)
 Thread_list = ["Thread1","Thread2","Thread3","Thread4","Thread5","Thread6","Thread7","Thread8","Thread9","Thread10","Thread11","Thread12","Thread13","Thread14","Thread15","Thread16","Thread17","Thread18","Thread19","Thread20"]
@@ -207,3 +219,4 @@ for i in range(1,pages+1):
     workqueue.put(i)
 for i in Threads:
     i.join()
+wb.save('多线程评论.xlsx')

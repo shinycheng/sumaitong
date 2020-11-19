@@ -130,5 +130,5 @@ df_Duplicated_1 = df_Duplicated_1[~df_Duplicated_1.index.duplicated()]
 df = pd.merge(df_Duplicated_1,df_Duplicated_2,how = 'left', on = 'country')
 df = pd.merge(df_Not_duplicated, df,how= 'left', on = 'country')
 df = df.fillna(' ')
-df.to_excel(r'F:\python\速卖通\运费价格\价格.xlsx')
+df.to_excel(r'价格.xlsx')
 

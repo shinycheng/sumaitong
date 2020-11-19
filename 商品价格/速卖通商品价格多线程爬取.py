@@ -3,6 +3,9 @@ import requests
 import threading
 import queue
 import json
+from openpyxl import Workbook
+wb = Workbook()
+ws = wb.active
 print("输入产品id：")
 productId =input()
 countrys = ["RU",
@@ -128,6 +131,8 @@ def price(name,productId,q):
     #商品价格列表
     skuPriceList = skuModule['skuPriceList']
     product_dict = {}
+    keys = []
+    values = []
     for i in range(len(skuPriceList)):
         skuAttr = skuPriceList[i]['skuAttr']
         skuAttr_skuName = re.findall(r'(\d+):',skuAttr)
@@ -141,6 +146,14 @@ def price(name,productId,q):
             value = productSKUPropertyList_dict[int(skuAttr_skuValueId[i])]
             product_dict[name] = value
         print(product_dict)
+        for key in product_dict.keys():
+            keys.append(key)
+        for i in range(len(keys)):
+            ws.cell(row=1,column=i+1).value = keys[i]
+        for value in product_dict.values():
+            values.append(value)
+    ws.append(values)
+
 
 #28个主要国家
 countrys_list = ["RU",
@@ -187,3 +200,4 @@ for country in countrys:
     workqueue.put(country)
 for i in Threads:
     i.join()
+wb.save('多线程价格.xlsx')
