@@ -3,7 +3,9 @@ import requests
 import threading
 import queue
 import json
-import pandas as pd
+from openpyxl import Workbook
+wb = Workbook()
+ws = wb.active
 
 #获取产品id
 print("输入产品id：")
@@ -55,6 +57,7 @@ class Mythread(threading.Thread):
 
 #爬取主函数
 def paqu(name,productId,q):
+    values = []
     # cookie
     cookies = {
         'ali_apache_id': '11.134.216.25.1600073409124.416382.1',
@@ -122,7 +125,7 @@ def paqu(name,productId,q):
     json_text = response.text
     json_text = json.loads(json_text)
     a_dict = {}
-    list = []
+    keys = []
     try:
         freightResult = json_text['body']['freightResult']
         for i in range(len(freightResult)):
@@ -131,13 +134,22 @@ def paqu(name,productId,q):
             a_dict['country'] = country
             a_dict['company'] = company
             a_dict['price'] = freightAmount
-            print(a_dict)
+            for key in a_dict.keys():
+                keys.append(key)
+            for i in range(len(keys)):
+                ws.cell(row=1,column=i+1).value = keys[i]
+            for value in a_dict.values():
+                values.append(value)
+        ws.append(values)
+
 
     except:
         a_dict['country'] = country
         a_dict['company'] = None
         a_dict['price'] = None
-        print(a_dict)
+        for value in a_dict.values():
+            values.append(value)
+        ws.append(values)
 
 
 #28个主要国家
@@ -186,3 +198,4 @@ for country in countrys:
     workqueue.put(country)
 for i in Threads:
     i.join()
+wb.save('多线程价格.xlsx')
