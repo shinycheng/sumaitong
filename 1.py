@@ -1,18 +1,105 @@
-from openpyxl import Workbook
-wb = Workbook()
-ws =wb.active
+from selenium import webdriver
+import requests
+import re
+bzbh = ["?bzbh=SL%2B74%25EF%25BC%258D2019",
+"?bzbh=SL%2B310%25EF%25BC%258D2019",
+"?bzbh=GB51304-2018",
+"?bzbh=GB%2B50433-2018",
+"?bzbh=SL41-2018",
+"?bzbh=GB51247-2018",
+"?bzbh=GB50288-2018",
+"?bzbh=SL253-2018",
+"?bzbh=SL314-2018",
+"?bzbh=SL282-2018",
+"?bzbh=SL319-2018",
+"?bzbh=SL303-2017",
+"?bzbh=JJG%25EF%25BC%2588%25E6%25B0%25B4%25E5%2588%25A9%25EF%25BC%2589005-2017",
+"?bzbh=SL252-2017",
+"?bzbh=GB51177-2016",
+"?bzbh=SL400-2016",
+"?bzbh=SL265-2016",
+"?bzbh=SL279-2016",
+"?bzbh=GB50179-2015",
+"?bzbh=SL714-2015",
+"?bzbh=GB50071-2014",
+"?bzbh=GB51018-2014",
+"?bzbh=JJG%25EF%25BC%2588%25E6%25B0%25B4%25E5%2588%25A9%25EF%25BC%2589004-2015",
+"?bzbh=SL702-2015",
+"?bzbh=GB50201-2014",
+"?bzbh=SL32-2014",
+"?bzbh=SL62-2014",
+"?bzbh=SL677-2014",
+"?bzbh=SL644-2014",
+"?bzbh=SL17-2014",
+"?bzbh=GB50987-2014",
+"?bzbh=SL655-2014",
+"?bzbh=SL266-2014",
+"?bzbh=SL275-2014",
+"?bzbh=GB50199-2013",
+"?bzbh=SL189-2013",
+"?bzbh=SL623-2013",
+"?bzbh=SL648-2013",
+"?bzbh=SL642-2013",
+"?bzbh=SL609-2013",
+"?bzbh=SL645-2013",
+"?bzbh=GB50286-2013",
+"?bzbh=SL228-2013",
+"?bzbh=SL575-2012",
+"?bzbh=SL566-2012",
+"?bzbh=SL561-2012",
+"?bzbh=GB50773-2012",
+"?bzbh=SL462-2012",
+"?bzbh=GB50707-2011",
+"?bzbh=GB50706-2011",
+"?bzbh=SL229-2011",
+"?bzbh=SL511-2011",
+"?bzbh=SL318-2011",
+"?bzbh=SL482-2011",
+"?bzbh=SL486-2011",
+"?bzbh=SL492-2011",
+"?bzbh=GB50265-2010",
+"?bzbh=SL485-2010",
+"?bzbh=GB50599-2010",
+"?bzbh=SL166-2010",
+"?bzbh=JJG%25EF%25BC%2588%25E6%25B0%25B4%25E5%2588%25A9%25EF%25BC%2589003-2009",
+"?bzbh=JJG%25EF%25BC%2588%25E6%25B0%25B4%25E5%2588%25A9%25EF%25BC%2589002-2009",
+"?bzbh=JJG%25EF%25BC%2588%25E6%25B0%25B4%25E5%2588%25A9%25EF%25BC%2589001-2009",
+"?bzbh=SL290-2009",
+"?bzbh=GB50487-2008",
+"?bzbh=SL443-2009",
+"?bzbh=SL191-2008",
+"?bzbh=SL430-2008",
+"?bzbh=SL223-2008",
+"?bzbh=SL401-2007",
+"?bzbh=SL399-2007",
+"?bzbh=SL398-2007",
+"?bzbh=SL377-2007",
+"?bzbh=SL378-2007",
+"?bzbh=SL176-2007",
+"?bzbh=SL386-2007",
+"?bzbh=SL379-2007",
+"?bzbh=GB50501-2007",
+"?bzbh=SL326-2005",
+"?bzbh=SL188-2005",
+"?bzbh=SL311-2004",
+"?bzbh=SL302-2004",
+"?bzbh=SL291-2003",
+"?bzbh=SL289-2003",
+"?bzbh=SL285-2003",
+"?bzbh=SL281-2003",
+"?bzbh=SL276-2002",
+"?bzbh=SL274-2001",
+"?bzbh=GB18523-2001",
+"?bzbh=SL168-2012",
+"?bzbh=SL171-96",
+"?bzbh=SL47-94",
+"?bzbh=SL53-94"
 
-data = [
-    ["fruit","quantity"],
-    ["kiwi",3],
-    ["grape",15],
-    ["apple",3],
-    ["pear",3],
-    ["mango",3]
 ]
-for r in data:
-    ws.append(r)
-ws.auto_filter.ref = "A1:B15"
-ws.auto_filter.add_filter_column(0,["kawi","apple","mango"])
-ws.auto_filter.add_sort_condition("B2:B15")
-wb.save('1.xlsx')
+for i in range(len(bzbh)):
+
+    driver = webdriver.Chrome()
+    url = 'http://zwgk.mwr.gov.cn/jsp/yishenqing/appladd/biaozhunfile/detail.jsp'+bzbh[i]+'#'
+    driver.get(url)
+    xiazai = driver.find_element_by_xpath('//*[@id="downFile"]')
+    xiazai.click()
