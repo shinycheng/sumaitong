@@ -6,8 +6,8 @@ product_cost_revernue_rate = 0.3
 product_sale_price = 29
 USD_to_RMB = 6.5
 free_shipping_freight = product_sale_price * USD_to_RMB * 0.92 - product_cost - (product_cost * product_cost_revernue_rate)
-freight_sum_address = r'F:\python\速卖通\运费模板\线上运费报价.xlsx'
-writer = pd.ExcelWriter(r'F:\python\速卖通\运费模板\速卖通运费模板.xlsx')
+freight_sum_address = r'/Users/zhanghang/Desktop/sumaitong/运费模板/线上运费报价.xlsx'
+writer = pd.ExcelWriter(r'/Users/zhanghang/Desktop/sumaitong/运费模板/速卖通运费模板.xlsx')
 #---------------------------------------------------------------------------------------------------------------------------------
 #无忧标准
 df_Wuyo = pd.read_excel(freight_sum_address, sheet_name = 'AliExpress无忧物流-标准')

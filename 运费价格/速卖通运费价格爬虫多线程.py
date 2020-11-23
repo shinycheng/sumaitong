@@ -6,10 +6,10 @@ import json
 from openpyxl import Workbook
 wb = Workbook()
 ws = wb.active
-
 #获取产品id
 print("输入产品id：")
 productId =input()
+#28个国家
 countrys = ["RU",
 "US",
 "CA",
@@ -39,7 +39,6 @@ countrys = ["RU",
 "TR",
 "PT"
 ]
-
 #多线程类：
 class Mythread(threading.Thread):
     def __init__(self,name,productId,q):
@@ -54,7 +53,6 @@ class Mythread(threading.Thread):
                 paqu(self.name,self.productId,self.q)
             except:
                 break
-
 #爬取主函数
 def paqu(name,productId,q):
     values = []
@@ -126,6 +124,35 @@ def paqu(name,productId,q):
     json_text = json.loads(json_text)
     a_dict = {}
     keys = []
+    countrys_list = ["RU",
+                     "US",
+                     "CA",
+                     "ES",
+                     "FR",
+                     "UK",
+                     "NL",
+                     "IL",
+                     "BR",
+                     "CL",
+                     "AU",
+                     "UA",
+                     "BY",
+                     "JP",
+                     "TH",
+                     "SG",
+                     "KR",
+                     "ID",
+                     "MY",
+                     "PH",
+                     "VN",
+                     "IT",
+                     "DE",
+                     "SA",
+                     "AE",
+                     "PL",
+                     "TR",
+                     "PT"
+                     ]
     try:
         freightResult = json_text['body']['freightResult']
         for i in range(len(freightResult)):
@@ -140,8 +167,10 @@ def paqu(name,productId,q):
                 ws.cell(row=1,column=i+1).value = keys[i]
             for value in a_dict.values():
                 values.append(value)
-        ws.append(values)
-
+            for i in range(len(values)):
+                for j in range(len(countrys_list)):
+                    if country == countrys_list[j]:
+                        ws.cell(row=j+2,column=i+1).value = values[i]
 
     except:
         a_dict['country'] = country
@@ -150,9 +179,7 @@ def paqu(name,productId,q):
         for value in a_dict.values():
             values.append(value)
         ws.append(values)
-
-
-#28个主要国家
+#28个主要国家（28个线程）
 countrys_list = ["RU",
 "US",
 "CA",
@@ -182,20 +209,19 @@ countrys_list = ["RU",
 "TR",
 "PT"
 ]
-
 #建立队列
 workqueue = queue.Queue(28)
-
 #创建新线程
 Threads = []
 for country_list in countrys_list:
     thread = Mythread(country_list,productId,workqueue)
     thread.start()
     Threads.append(thread)
-
 #填充队列
 for country in countrys:
     workqueue.put(country)
 for i in Threads:
     i.join()
-wb.save('多线程价格.xlsx')
+wb.save('运费价格.xlsx')
+
+

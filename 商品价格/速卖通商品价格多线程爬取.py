@@ -37,7 +37,6 @@ countrys = ["RU",
 "TR",
 "PT"
 ]
-
 #多线程类：
 class Mythread(threading.Thread):
     def __init__(self,name,productId,q):
@@ -52,7 +51,6 @@ class Mythread(threading.Thread):
                 price(self.name,self.productId,self.q)
             except:
                 break
-
 #爬取价格主函数
 def price(name,productId,q):
     country = q.get(timeout = 2)
@@ -112,6 +110,35 @@ def price(name,productId,q):
     )
     response = requests.get(url, headers=headers, params=params, cookies=cookies)
     r = response.text.replace('\t','').replace('\n','').replace(' ','')
+    countrys_list = ["RU",
+                     "US",
+                     "CA",
+                     "ES",
+                     "FR",
+                     "UK",
+                     "NL",
+                     "IL",
+                     "BR",
+                     "CL",
+                     "AU",
+                     "UA",
+                     "BY",
+                     "JP",
+                     "TH",
+                     "SG",
+                     "KR",
+                     "ID",
+                     "MY",
+                     "PH",
+                     "VN",
+                     "IT",
+                     "DE",
+                     "SA",
+                     "AE",
+                     "PL",
+                     "TR",
+                     "PT"
+                     ]
     #json格式文本
     data = re.findall(r'window.runParams=.*?data:(.*?),csrfToken:',r)[0]
     data_json = json.loads(data)
@@ -152,9 +179,10 @@ def price(name,productId,q):
             ws.cell(row=1,column=i+1).value = keys[i]
         for value in product_dict.values():
             values.append(value)
-    ws.append(values)
-
-
+        for i in range(len(values)):
+            for j in range(len(countrys_list)):
+                if country == countrys_list[j]:
+                    ws.cell(row=j + 2, column=i + 1).value = values[i]
 #28个主要国家
 countrys_list = ["RU",
 "US",
@@ -185,10 +213,8 @@ countrys_list = ["RU",
 "TR",
 "PT"
 ]
-
 #建立队列
 workqueue = queue.Queue(28)
-
 #创建新线程
 Threads = []
 for country_list in countrys_list:
@@ -200,4 +226,4 @@ for country in countrys:
     workqueue.put(country)
 for i in Threads:
     i.join()
-wb.save('多线程价格.xlsx')
+wb.save('商品价格.xlsx')

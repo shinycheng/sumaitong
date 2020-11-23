@@ -188,6 +188,8 @@ def all_comments(name,productId,ownerMemberId,companyTd,p):
     keys = []
     values = []
     for comment in comments:
+        keys = []
+        values = []
         user_country = comment.find_all('div', class_="user-country")
         user_info = comment.find('div', class_="user-order-info")
         comment_time = comment.find('span',class_="r-time-new")
@@ -205,7 +207,7 @@ def all_comments(name,productId,ownerMemberId,companyTd,p):
             ws.cell(row=1,column=i+1).value = keys[i]
         for value in name_dict.values():
             values.append(value)
-    ws.append(values)
+        ws.append(values)
 
 pages = comment_page(productId,ownerMemberId,companyId)
 Thread_list = ["Thread1","Thread2","Thread3","Thread4","Thread5","Thread6","Thread7","Thread8","Thread9","Thread10","Thread11","Thread12","Thread13","Thread14","Thread15","Thread16","Thread17","Thread18","Thread19","Thread20"]

@@ -1,8 +1,10 @@
-import datetime
 from openpyxl import Workbook
 wb = Workbook()
 ws = wb.active
-ws['A1'] = datetime.datetime(2010,7,21)
-print(ws['A1'].number_format)
-ws['A2'] = "SUM(1,1)"
-wb.save('formula.xlsx')
+data = [['aooles',1000,5000,8000,6000],
+        ['perars',2000,3000,4000,5000],
+        ['bana',3,2,1,0],
+        ]
+ws.append(['fruit','2011','2012','2013','2014'])
+for row in data:
+    ws.append(row)
