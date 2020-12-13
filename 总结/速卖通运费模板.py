@@ -1,54 +1,49 @@
 import pandas as pd
-
-product_weight = 0.7
-product_cost = 90
-product_cost_revernue_rate = 0.3
-product_sale_price = 29
-USD_to_RMB = 6.5
-free_shipping_freight = product_sale_price * USD_to_RMB * 0.92 - product_cost - (product_cost * product_cost_revernue_rate)
-freight_sum_address = r'/Users/zhanghang/Desktop/sumaitong/运费模板/线上运费报价.xlsx'
-writer = pd.ExcelWriter(r'/Users/zhanghang/Desktop/sumaitong/运费模板/速卖通运费模板.xlsx')
+from config import *
+free_shipping_freight = product_sale_price * USD_to_RMB * 0.92 - max(product_cost) - (max(product_cost) * product_cost_revernue_rate)
+freight_sum_address = r'/Users/zhanghang/Desktop/sumaitong/总结/线上运费报价.xlsx'
+writer = pd.ExcelWriter(r'/Users/zhanghang/Desktop/sumaitong/总结/速卖通运费模板.xlsx')
 #---------------------------------------------------------------------------------------------------------------------------------
 #无忧标准
 df_Wuyo = pd.read_excel(freight_sum_address, sheet_name = 'AliExpress无忧物流-标准')
 
-if(product_weight < 0.1):
-    df_Wuyo['应加运费'] = ((product_weight * df_Wuyo['费率(0-100g)'] + df_Wuyo[
+if(max(product_weight) < 0.1):
+    df_Wuyo['应加运费'] = ((max(product_weight) * df_Wuyo['费率(0-100g)'] + df_Wuyo[
         '挂号费(0-100g)'] - free_shipping_freight) / 0.92 / USD_to_RMB / 1.05).round(decimals=2)
     # df_Wuyo.to_excel(writer, 'AliExpress无忧物流-标准')
 
-elif(product_weight < 0.15):
-    df_Wuyo['应加运费'] = ((product_weight * df_Wuyo['费率(100-150g)'] + df_Wuyo[
+elif(max(product_weight) < 0.15):
+    df_Wuyo['应加运费'] = ((max(product_weight) * df_Wuyo['费率(100-150g)'] + df_Wuyo[
         '挂号费(100-150g)'] - free_shipping_freight) / 0.92 / USD_to_RMB / 1.05).round(decimals=2)
     # df_Wuyo.to_excel(writer, 'AliExpress无忧物流-标准')
 
-elif(product_weight < 0.175):
-    df_Wuyo['应加运费'] = ((product_weight * df_Wuyo['费率(150-175g)'] + df_Wuyo[
+elif(max(product_weight) < 0.175):
+    df_Wuyo['应加运费'] = ((max(product_weight) * df_Wuyo['费率(150-175g)'] + df_Wuyo[
         '挂号费(150-175g)'] - free_shipping_freight) / 0.92 / USD_to_RMB / 1.05).round(decimals=2)
     # df_Wuyo.to_excel(writer, 'AliExpress无忧物流-标准')
 
-elif(product_weight < 0.2):
-    df_Wuyo['应加运费'] = ((product_weight * df_Wuyo['费率(175-200g)'] + df_Wuyo[
+elif(max(product_weight) < 0.2):
+    df_Wuyo['应加运费'] = ((max(product_weight) * df_Wuyo['费率(175-200g)'] + df_Wuyo[
         '挂号费(175-200g)'] - free_shipping_freight) / 0.92 / USD_to_RMB / 1.05).round(decimals=2)
     # df_Wuyo.to_excel(writer, 'AliExpress无忧物流-标准')
 
-elif(product_weight < 0.3):
-    df_Wuyo['应加运费'] = ((product_weight * df_Wuyo['费率(200-300g)'] + df_Wuyo[
+elif(max(product_weight) < 0.3):
+    df_Wuyo['应加运费'] = ((max(product_weight) * df_Wuyo['费率(200-300g)'] + df_Wuyo[
         '挂号费(200-300g)'] - free_shipping_freight) / 0.92 / USD_to_RMB / 1.05).round(decimals=2)
     # df_Wuyo.to_excel(writer, 'AliExpress无忧物流-标准')
 
-elif(product_weight < 0.45):
-    df_Wuyo['应加运费'] = ((product_weight * df_Wuyo['费率(300-450g)'] + df_Wuyo[
+elif(max(product_weight) < 0.45):
+    df_Wuyo['应加运费'] = ((max(product_weight) * df_Wuyo['费率(300-450g)'] + df_Wuyo[
         '挂号费(300-450g)'] - free_shipping_freight) / 0.92 / USD_to_RMB / 1.05).round(decimals=2)
     # df_Wuyo.to_excel(writer, 'AliExpress无忧物流-标准')
 
-elif(product_weight < 0.605):
-    df_Wuyo['应加运费'] = ((product_weight * df_Wuyo['费率(450-605g)'] + df_Wuyo[
+elif(max(product_weight) < 0.605):
+    df_Wuyo['应加运费'] = ((max(product_weight) * df_Wuyo['费率(450-605g)'] + df_Wuyo[
         '挂号费(450-605g)'] - free_shipping_freight) / 0.92 / USD_to_RMB / 1.05).round(decimals=2)
     # df_Wuyo.to_excel(writer, 'AliExpress无忧物流-标准')
 
 else:
-    df_Wuyo['应加运费'] = ((product_weight * df_Wuyo['费率(606-2000g)'] + df_Wuyo[
+    df_Wuyo['应加运费'] = ((max(product_weight) * df_Wuyo['费率(606-2000g)'] + df_Wuyo[
         '挂号费(606-2000g)'] - free_shipping_freight) / 0.92 / USD_to_RMB / 1.05).round(decimals=2)
     # df_Wuyo.to_excel(writer, 'AliExpress无忧物流-标准')
 
@@ -56,7 +51,7 @@ else:
 #燕文挂号
 df_Yanwen = pd.read_excel(freight_sum_address, sheet_name = '燕文航空挂号小包')
 
-df_Yanwen['应加运费'] = ((product_weight * df_Yanwen['费率'] + df_Yanwen[
+df_Yanwen['应加运费'] = ((max(product_weight) * df_Yanwen['费率'] + df_Yanwen[
     '挂号费'] - free_shipping_freight) / 0.92 / USD_to_RMB / 1.05).round(decimals=2)
 # df_Yanwen.to_excel(writer, '燕文航空挂号小包')
 
@@ -65,18 +60,18 @@ df_Yanwen['应加运费'] = ((product_weight * df_Yanwen['费率'] + df_Yanwen[
 #中邮
 
 df_Zhongyo = pd.read_excel(freight_sum_address, sheet_name = '中国邮政挂号小包')
-if(product_weight < 0.15):
-    df_Zhongyo['应加运费'] = ((product_weight * df_Zhongyo['费率(0-150g)'] + df_Zhongyo[
+if(max(product_weight) < 0.15):
+    df_Zhongyo['应加运费'] = ((max(product_weight) * df_Zhongyo['费率(0-150g)'] + df_Zhongyo[
         '挂号费(0-150g)'] - free_shipping_freight) / 0.92 / USD_to_RMB / 1.05).round(decimals=2)
     # df_Zhongyo.to_excel(writer, '中国邮政挂号小包')
 
-elif(product_weight < 0.3):
-    df_Zhongyo['应加运费'] = ((product_weight * df_Zhongyo['费率(150-300g)'] + df_Zhongyo[
+elif(max(product_weight) < 0.3):
+    df_Zhongyo['应加运费'] = ((max(product_weight) * df_Zhongyo['费率(150-300g)'] + df_Zhongyo[
         '挂号费(150-300g)'] - free_shipping_freight) / 0.92 / USD_to_RMB / 1.05).round(decimals=2)
     # df_Zhongyo.to_excel(writer, '中国邮政挂号小包')
 
 else:
-    df_Zhongyo['应加运费'] = ((product_weight * df_Zhongyo['费率(300-2000g)'] + df_Zhongyo[
+    df_Zhongyo['应加运费'] = ((max(product_weight) * df_Zhongyo['费率(300-2000g)'] + df_Zhongyo[
         '挂号费(300-2000g)'] - free_shipping_freight) / 0.92 / USD_to_RMB / 1.05).round(decimals=2)
     # df_Zhongyo.to_excel(writer, '中国邮政挂号小包')
 

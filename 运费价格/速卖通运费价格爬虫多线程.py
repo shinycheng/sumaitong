@@ -121,6 +121,7 @@ def paqu(name,productId,q):
     )
     response = requests.get('https://www.aliexpress.com/aeglodetailweb/api/logistics/freight', headers=headers,params=params, cookies=cookies)
     json_text = response.text
+    print(json_text)
     json_text = json.loads(json_text)
     a_dict = {}
     keys = []
